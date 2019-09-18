@@ -6,6 +6,10 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const contract = sequelizeClient.define('contract', {
+    version: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     text: {
       type: DataTypes.STRING,
       allowNull: false
