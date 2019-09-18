@@ -5,7 +5,8 @@
 User: postgres
 password:
 
-Observation: Is necessary create database manually
+Observation: Is necessary create database manually.
+Currently name of database is `api` and you can customize it in file `./api/config/default.json`. 
 
 # Start Database
 
