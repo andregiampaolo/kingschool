@@ -35,32 +35,29 @@ import {
 
 class Login extends React.Component {
 
-  constructor( props ){
-    super( props );
-    this.handleSubmit = this.handleSubmit.bind(this);
-  };
 
   state = {
     username: "",
     password: ""
   };
 
-  handleInputChange = e => {
-    this.setState({ username: e.target.value });
-    this.setState({ password: e.target.value });
-  };
-
+  // handleInputChange = e => {
+  //   this.setState({ username: e.target.value });
+  //   this.setState({ password: e.target.value });
+  // };
+  
   handleSubmit = e => {
     e.preventDefault();
-    console.log("Aqui!");
+    
     const { username, password } = this.state;
     
-    // if(!username.length) return;
+    if(!username.length) return;
+    if(!password.length) return;
 
     localStorage.setItem("@GoKings:username", username);
-    localStorage.setItem("@GoKings:username", password);
+    localStorage.setItem("@GoKings:password", password);
 
-    this.props.history.push("/register");
+    this.props.history.push("/admin/index");
   };
 
   render() {
@@ -115,7 +112,7 @@ class Login extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input value={this.state.username} onChange={this.handleInputChange} placeholder="E-mail" type="email" />
+                    <Input onChange={e => this.setState({ username: e.target.value })} placeholder="E-mail" type="email" />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -125,7 +122,7 @@ class Login extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Senha" type="password" />
+                    <Input onChange={e => this.setState({ password: e.target.value })} placeholder="Senha" type="password" />
                   </InputGroup>
                 </FormGroup>
                 <div className="custom-control custom-control-alternative custom-checkbox">
@@ -142,7 +139,7 @@ class Login extends React.Component {
                   </label>
                 </div>
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="button">
+                  <Button className="my-4" color="primary" type="submit">
                     Entrar
                   </Button>
                 </div>
