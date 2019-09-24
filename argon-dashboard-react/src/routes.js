@@ -22,6 +22,7 @@ import Register from "views/examples/Register.jsx";
 import Login from "views/examples/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
+import RegisterForm from "./views/examples/RegisterForm";
 
 var routes = [
   {
@@ -51,6 +52,13 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin"
+  },
+  {
+    path: "/register-form",
+    name: "Register Form",
+    icon: "ni ni-single-02 text-yellow",
+    component: RegisterForm,
+    layout: "/register-form"
   },
   {
     path: "/tables",
