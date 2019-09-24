@@ -34,6 +34,39 @@ import {
 } from "reactstrap";
 
 class Register extends React.Component {
+
+  constructor(props) { 
+    super(props);
+
+    this.state = {
+      username: "",
+      email: "",
+      password: ""
+    };
+  }
+
+  // handleInputChange = e => {
+  //   this.setState({ username: e.target.value });
+  //   this.setState({ email: e.target.value });
+  //   this.setState({ password: e.target.value });
+  // };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    
+    const { username, email, password } = this.state;
+    
+    if(!username.length) return;
+    if(!email.length) return;
+    if(!password.length) return;
+
+    localStorage.setItem("@GoKings:username", username);
+    localStorage.setItem("@GoKings:email", email);
+    localStorage.setItem("@GoKings:password", password);
+
+    this.props.history.push("/register-form/register-form");
+  };
+
   render() {
     return (
       <>
@@ -78,7 +111,7 @@ class Register extends React.Component {
               <div className="text-center text-muted mb-4">
                 <small>Ou inscreva-se com suas credenciais</small>
               </div>
-              <Form role="form">
+              <Form onSubmit={this.handleSubmit} role="form">
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">
@@ -86,7 +119,7 @@ class Register extends React.Component {
                         <i className="ni ni-hat-3" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Nome" type="text" />
+                    <Input onChange={this.handleInputChange} placeholder="Nome" type="text" />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -96,7 +129,7 @@ class Register extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="E-mail" type="email" />
+                    <Input onChange={e => this.setState({ email: e.target.value })} placeholder="E-mail" type="email" />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -106,7 +139,7 @@ class Register extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Senha" type="password" />
+                    <Input onChange={e => this.setState({ password: e.target.value })} placeholder="Senha" type="password" />
                   </InputGroup>
                 </FormGroup>
                 {/* <div className="text-muted font-italic">
@@ -138,7 +171,7 @@ class Register extends React.Component {
                   </Col>
                 </Row>
                 <div className="text-center">
-                  <Button className="mt-4" color="primary" type="button">
+                  <Button className="mt-4" color="primary" type="submit">
                     Criar Conta
                   </Button>
                 </div>
