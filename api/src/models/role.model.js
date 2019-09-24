@@ -26,6 +26,7 @@ module.exports = function (app) {
   role.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    role.hasMany(models.users);
   };
 
   return role;
