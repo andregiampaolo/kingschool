@@ -25,3 +25,11 @@ Association documentation: https://sequelize.org/master/manual/associations.html
 # Documentation Basic
 
 Brasil: https://www.youtube.com/watch?v=ef67L9XiJPA
+
+# Documentation Seed:
+
+https://auk.docs.feathersjs.com/guides/advanced/seeding-services.html
+
+# Documentation Many to Many:
+
+https://gist.github.com/harrisrobin/1415a91630bcfaefb6193d721c435b95
