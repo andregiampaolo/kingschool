@@ -26,9 +26,7 @@ module.exports = function (app) {
   permissions.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    permissions.belongsToMany(models.role, { as: 'role', through: 'role_permissions', onDelete: 'NO ACTION' });
-
-    //permissions.hasMany(models.role);
+    permissions.belongsToMany(models.role, { as: 'role', through: 'role_permissions', onDelete: 'CASCADE' });
   };
 
   return permissions;
