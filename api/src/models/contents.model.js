@@ -5,7 +5,7 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const subject = sequelizeClient.define('subject', {
+  const contents = sequelizeClient.define('contents', {
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -19,11 +19,11 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  subject.associate = function (models) {
+  contents.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    subject.hasMany(models.contents);
+    contents.belongsTo(models.subject);
   };
 
-  return subject;
+  return contents;
 };
