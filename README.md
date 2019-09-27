@@ -69,3 +69,13 @@ https://github.com/sequelize/sequelize/issues/970
         });
     });
     '''
+
+
+# Youtube videos good:
+
+Creator: https://www.youtube.com/watch?v=fLWs15-KX2g
+
+Introduction: https://www.youtube.com/watch?v=eXnKKnaoA08&list=PLM_i0obccy3uvP4ZMI6NwTzM0BvYBQ7Xd
+Services: https://www.youtube.com/watch?v=4I9nLLFNWk8&list=PLM_i0obccy3uvP4ZMI6NwTzM0BvYBQ7Xd&index=11
+Hooks: https://www.youtube.com/watch?v=gRgJWKjYf4w&list=PLM_i0obccy3uvP4ZMI6NwTzM0BvYBQ7Xd&index=13
+Hooks vs Services: https://www.youtube.com/watch?v=kzT0vBBokIY&list=PLM_i0obccy3uvP4ZMI6NwTzM0BvYBQ7Xd&index=14
