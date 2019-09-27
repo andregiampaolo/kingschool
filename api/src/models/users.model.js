@@ -30,6 +30,8 @@ module.exports = function (app) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     users.belongsTo(models.role);
+    users.belongsToMany(models.contract, { as: 'contract', through: 'usersContract', onDelete: 'CASCADE' });
+  
   };
 
   users.sync().then(() => {
