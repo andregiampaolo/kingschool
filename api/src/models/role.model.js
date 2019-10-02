@@ -29,7 +29,7 @@ module.exports = function (app) {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     role.hasMany(models.users);
     role.hasMany(models.contract);
-    role.belongsToMany(models.permissions, { as: 'permissions', through: 'role_permissions', onDelete: 'CASCADE' });
+    role.belongsToMany(models.permissions, { as: 'permissions', through: 'rolePermissions', onDelete: 'CASCADE' });
   };
 
   role.sync().then(() => {
