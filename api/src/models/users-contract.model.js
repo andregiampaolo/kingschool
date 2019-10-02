@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
-const sequelizeClient = app.get('sequelizeClient');
+  const sequelizeClient = app.get('sequelizeClient');
   const usersContract = sequelizeClient.define('usersContract', {
     accept: {
       type: DataTypes.DATE,
@@ -20,4 +20,4 @@ const sequelizeClient = app.get('sequelizeClient');
   });
 
   return usersContract;
-}
+};
