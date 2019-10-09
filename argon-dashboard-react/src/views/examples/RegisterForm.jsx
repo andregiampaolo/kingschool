@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import ReactDatetime from "react-datetime";
 
 // reactstrap components
 import {
@@ -28,35 +29,197 @@ import {
   Input,
   Container,
   Row,
-  Col
+  Col,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup
 } from "reactstrap";
 // core components
 import RegisterHeader from "components/Headers/RegisterHeader.jsx";
 
+require('moment/locale/pt');
+
 class RegisterForm extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentStep: 1,
+      email:  '',
+      username: '',
+      phone: '',
+      name: '',
+      cpf: '',
+      birthday: '',
+      sponsorName: '',
+      sponsorEmail: '',
+      sponsorPhone: '',
+      studentName: '',
+      studentEmail: '',
+      studentBirthday: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange = e => {
+    e.preventDefault();
+    const {name, value} = e.target
+    console.log(name,value,e.target);
+    this.setState({
+      [name]: value
+    })    
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { email, username, phone, name, cpf, birthday, sponsorName, sponsorEmail, sponsorPhone, studentName, studentEmail, studentBirthday } = this.state
+    alert(`Detalhes do registro: \n 
+           Nome: ${name} \n
+           Nome de usuário: ${username} \n
+           E-mail: ${email} \n
+           Telefone: ${phone} \n
+           CPF: ${cpf} \n
+           Aniversário: ${birthday} \n
+           Nome do Responsável: ${sponsorName} \n
+           E-mail do responsável: ${sponsorEmail} \n
+           Telefone do Responsável: ${sponsorPhone} \n
+           Nome do Aluno: ${studentName} \n
+           E-mail do Aluno: ${studentEmail} \n
+           Aniversário do Aluno: ${studentBirthday}
+           `)
+  }
+
+  _next = () => {
+    let currentStep = this.state.currentStep
+    currentStep = currentStep >= 2? 3: currentStep + 1
+    this.setState({
+      currentStep: currentStep
+    })
+  }
+    
+  _prev = () => {
+    let currentStep = this.state.currentStep
+    currentStep = currentStep <= 1? 1: currentStep - 1
+    this.setState({
+      currentStep: currentStep
+    })
+  }
+
+  previousButton() {
+    let currentStep = this.state.currentStep;
+    if(currentStep !==1){
+      return (
+        <button 
+          className="btn btn-secondary" 
+          type="button" onClick={this._prev}>
+        Voltar
+        </button>
+      )
+    }
+    return null;
+  }
+
+  nextButton(){
+    let currentStep = this.state.currentStep;
+    if(currentStep <3){
+      return (
+        <button 
+          className="btn btn-primary float-right" 
+          type="button" onClick={this._next}>
+        Próximo
+        </button>        
+      )
+    }
+    return null;
+  }
+
   render() {
     return (
       <>
-        <RegisterHeader />
-        {/* Page content */}
+      <RegisterHeader />
+      <React.Fragment>
+      {/* <form onSubmit={this.handleSubmit}> */}
+        <Step1 
+            currentStep={this.state.currentStep} 
+            handleChange={this.handleChange}
+            name ={this.state.name}
+            username ={this.state.username}
+            email={this.state.email}
+            phone={this.state.phone}
+            cpf={this.state.cpf}
+            birthday={this.state.birthday}
+        />
+
+        <Step2 
+            currentStep={this.state.currentStep} 
+            handleChange={this.handleChange}
+            sponsorName={this.state.sponsorName}
+            sponsorEmail={this.state.sponsorEmail}
+            sponsorPhone={this.state.sponsorPhone}
+        />
+        
+        <Step3 
+            currentStep={this.state.currentStep} 
+            handleChange={this.handleChange}
+            studentName={this.state.studentName}
+            studentEmail={this.state.studentEmail}
+            studentPhone={this.state.studentPhone}
+        />
+
+          {this.previousButton()}
+          {this.nextButton()}
+
+      {/* </form> */}
+      </React.Fragment>
+      
+
+      </>
+    );
+
+    function Step1(props) {
+      if (props.currentStep !== 1) {
+        return null
+      } 
+      return(
         <Container className="mt--7" fluid>
           <Row>
-            
             <Col className="order-xl-1" >
               <Card className="bg-secondary shadow">
-                <CardHeader className="bg-white border-0">
+              <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">
-                      <h3 className="mb-0">My account</h3>
+                      <h3 className="mb-0">Minha conta</h3>
                     </Col>
                   </Row>
                 </CardHeader>
                 <CardBody>
                   <Form>
                     <h6 className="heading-small text-muted mb-4">
-                      User information
+                        Cadastro de Dados pessoais
                     </h6>
                     <div className="pl-lg-4">
+                    <Row>
+                          <Col lg="12">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-first-name"
+                              >
+                                Nome completo
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                // defaultValue=""
+                                id="input-first-name"
+                                name="name"
+                                placeholder="Nome completo"
+                                type="text"
+                                value={this.state.name}
+                                onChange={this.handleChange}
+                              />
+                            </FormGroup>
+                          </Col>
+                      </Row>
                       <Row>
                         <Col lg="6">
                           <FormGroup>
@@ -64,14 +227,16 @@ class RegisterForm extends React.Component {
                               className="form-control-label"
                               htmlFor="input-username"
                             >
-                              Username
+                              Nome de usuário
                             </label>
                             <Input
                               className="form-control-alternative"
-                              defaultValue="lucky.jesse"
+                              // defaultValue=""
                               id="input-username"
-                              placeholder="Username"
+                              placeholder="Nome de usuário"
                               type="text"
+                              value={props.username}
+                              onChange={props.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -81,13 +246,15 @@ class RegisterForm extends React.Component {
                               className="form-control-label"
                               htmlFor="input-email"
                             >
-                              Email address
+                              E-mail
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder="jesse@example.com"
+                              placeholder="E-mail"
                               type="email"
+                              value={props.email}
+                              onChange={props.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -97,16 +264,18 @@ class RegisterForm extends React.Component {
                           <FormGroup>
                             <label
                               className="form-control-label"
-                              htmlFor="input-first-name"
+                              htmlFor="input-phone"
                             >
-                              First name
+                              Telefone
                             </label>
                             <Input
                               className="form-control-alternative"
-                              defaultValue="Lucky"
-                              id="input-first-name"
-                              placeholder="First name"
-                              type="text"
+                              // defaultValue=""
+                              id="input-phone"
+                              placeholder="Telefone"
+                              type="tel"
+                              value={props.phone}
+                              onChange={props.handleChange}
                             />
                           </FormGroup>
                         </Col>
@@ -114,114 +283,53 @@ class RegisterForm extends React.Component {
                           <FormGroup>
                             <label
                               className="form-control-label"
-                              htmlFor="input-last-name"
+                              htmlFor="input-cpf"
                             >
-                              Last name
+                              CPF
                             </label>
                             <Input
                               className="form-control-alternative"
-                              defaultValue="Jesse"
-                              id="input-last-name"
-                              placeholder="Last name"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <hr className="my-4" />
-                    {/* Address */}
-                    <h6 className="heading-small text-muted mb-4">
-                      Contact information
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-address"
-                            >
-                              Address
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                              id="input-address"
-                              placeholder="Home Address"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-city"
-                            >
-                              City
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="New York"
-                              id="input-city"
-                              placeholder="City"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-country"
-                            >
-                              Country
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="United States"
-                              id="input-country"
-                              placeholder="Country"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-country"
-                            >
-                              Postal code
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-postal-code"
-                              placeholder="Postal code"
+                              // defaultValue=""
+                              id="input-cpf"
+                              placeholder="CPF"
                               type="number"
+                              value={props.cpf}
+                              onChange={props.handleChange}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
-                    </div>
-                    <hr className="my-4" />
-                    {/* Description */}
-                    <h6 className="heading-small text-muted mb-4">About me</h6>
-                    <div className="pl-lg-4">
-                      <FormGroup>
-                        <label>About Me</label>
-                        <Input
-                          className="form-control-alternative"
-                          placeholder="A few words about you ..."
-                          rows="4"
-                          defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                          Open Source."
-                          type="textarea"
-                        />
-                      </FormGroup>
+                      <Row>
+                        <Col>
+                          <FormGroup>
+                            <label
+                            className="form-control-label" 
+                            htmlFor="input-birthday"
+                            >
+                              Data de Nascimento
+                            </label>
+                            <InputGroup className="input-group-alternative">
+                              <InputGroupAddon addonType="prepend">
+                                <InputGroupText>
+                                  <i className="ni ni-calendar-grid-58" />
+                                </InputGroupText>
+                              </InputGroupAddon>
+                              <ReactDatetime
+                                inputProps={{
+                                  placeholder: "Data de Nascimento"
+                                }}
+                                closeOnSelect={true}
+                                viewMode='years'
+                                locale="pt-br"
+                                dateFormat="DD/MM/YYYY"
+                                timeFormat={false}
+                                value={props.birthday}
+                                onChange={props.handleChange}
+                              />
+                            </InputGroup>
+                          </FormGroup>
+                        </Col>
+                      </Row>
                     </div>
                   </Form>
                 </CardBody>
@@ -229,8 +337,233 @@ class RegisterForm extends React.Component {
             </Col>
           </Row>
         </Container>
-      </>
-    );
+      );
+    }
+
+    function Step2(props) {
+      if (props.currentStep !== 2) {
+        return null
+      } 
+      return(
+        <Container className="mt--7" fluid>
+          <Row>
+            <Col className="order-xl-1" >
+              <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                  <Row className="align-items-center">
+                    <Col xs="8">
+                      <h3 className="mb-0">Minha conta</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                        Cadastro de Responsável
+                    </h6>
+                    <div className="pl-lg-4">
+
+                    <div> 
+                      <label className="custom-toggle">
+                        <input type="checkbox" />
+                        <span className="custom-toggle-slider rounded-circle" />
+                      </label>
+                    
+                      <p>Eu sou responsável</p>
+                    </div>
+
+                    <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-sponsorName"
+                            >
+                              Nome Completo do Responsável
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              // defaultValue=""
+                              id="input-sponsorName"
+                              placeholder="Nome comleto do responsável"
+                              type="text"
+                              value={props.sponsorName}
+                              onChange={props.handleChange}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-sponsorEmail"
+                            >
+                              E-mail do Responsável
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              // defaultValue=""
+                              id="input-sponsorEmail"
+                              placeholder="E-mail do responsável"
+                              type="email"
+                              value={props.sponsorEmail}
+                              onChange={props.handleChange}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-sponsorPhone"
+                            >
+                              Telefone do Responsável
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              // defaultValue=""
+                              id="input-sponsorPhone"
+                              placeholder="Telefone do responsável"
+                              type="number"
+                              value={props.sponsorPhone}
+                              onChange={props.handleChange}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      );
+    }
+
+    function Step3(props) {
+      if (props.currentStep !== 3) {
+        return null
+      } 
+      return(
+        <React.Fragment>
+        <Container className="mt--7" fluid>
+          <Row>
+            <Col className="order-xl-1" >
+              <Card className="bg-secondary shadow">
+              <CardHeader className="bg-white border-0">
+                  <Row className="align-items-center">
+                    <Col xs="8">
+                      <h3 className="mb-0">Minha conta</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                        Cadastro de Aluno
+                    </h6>
+                    <div className="pl-lg-4">
+
+                    <div> 
+                      <label className="custom-toggle">
+                        <input type="checkbox" />
+                        <span className="custom-toggle-slider rounded-circle" />
+                      </label>
+                    
+                      <p>Eu sou aluno</p>
+                    </div>
+
+                    <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-sponsorName"
+                            >
+                              Nome Completo do Aluno
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              // defaultValue=""
+                              id="input-studentName"
+                              placeholder="Nome completo do aluno"
+                              type="text"
+                              value={props.studentName}
+                              onChange={props.handleChange}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-studentEmail"
+                            >
+                              E-mail do Aluno
+                            </label>
+                            <Input
+                              className="form-control-alternative"
+                              // defaultValue=""
+                              id="input-studentEmail"
+                              placeholder="E-mail do aluno"
+                              type="email"
+                              value={props.studentEmail}
+                              onChange={props.handleChange}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                        <FormGroup>
+                            <label
+                            className="form-control-label" 
+                            htmlFor="input-birthday"
+                            >
+                              Data de Nascimento do Aluno
+                            </label>
+                            <InputGroup className="input-group-alternative">
+                              <InputGroupAddon addonType="prepend">
+                                <InputGroupText>
+                                  <i className="ni ni-calendar-grid-58" />
+                                </InputGroupText>
+                              </InputGroupAddon>
+                              <ReactDatetime
+                                inputProps={{
+                                  placeholder: "Data de nascimento do aluno"
+                                }}
+                                closeOnSelect={true}
+                                viewMode='years'
+                                locale="pt-br"
+                                dateFormat="DD/MM/YYYY"
+                                timeFormat={false}
+                                value={props.studentBirthday}
+                                onChange={props.handleChange}
+                                
+                              />
+                            </InputGroup>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                    <div className="text-center">
+                      <Button className="my-4" color="primary" type="submit">
+                        Criar
+                      </Button>
+                    </div>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+        </React.Fragment>
+      );
+    }
+
   }
 }
 
