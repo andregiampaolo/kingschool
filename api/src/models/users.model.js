@@ -31,19 +31,19 @@ module.exports = function (app) {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     users.belongsTo(models.role);
     users.belongsToMany(models.contract, { as: 'contract', through: 'usersContract', onDelete: 'CASCADE' });
-  
+
   };
 
-  users.sync().then(() => {
-    SeedUsers.map(user => {
-      users.findOrCreate({ where: { email: user.email }, defaults: { password: user.password } })
-        .then(([user, created]) => {
-          if (created) {
-            console.log('User create: ', user);
-          }
-        });
-    });
-  });
+  // users.sync().then(() => {
+  //   SeedUsers.map(user => {
+  //     users.findOrCreate({ where: { email: user.email }, defaults: { password: user.password } })
+  //       .then(([user, created]) => {
+  //         if (created) {
+  //           console.log('User create: ', user);
+  //         }
+  //       });
+  //   });
+  // });
 
   return users;
 };

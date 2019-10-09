@@ -2,11 +2,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 module.exports = {
   before: {
-    all: [authenticate('jwt'), (hooks) => {
-      hooks.params.sequelize = {
-        include: [{ model: hooks.app.services.permissions.Model, as: 'permissions' }],
-      };
-    }],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [],

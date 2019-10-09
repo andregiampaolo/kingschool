@@ -13,7 +13,8 @@ module.exports = function (app) {
     },
     slug: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true,
     }
   }, {
     hooks: {
@@ -29,19 +30,19 @@ module.exports = function (app) {
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
     role.hasMany(models.users);
     role.hasMany(models.contract);
-    role.belongsToMany(models.permissions, { as: 'permissions', through: 'rolePermissions', onDelete: 'CASCADE' });
+    role.belongsToMany(models.permissions, { as: 'permissions', through: 'rolePermissions' });
   };
 
-  role.sync().then(() => {
-    SeedRoles.map(r => {
-      role.findOrCreate({ where: { name: r.name, slug: r.slug }, defaults: {} })
-        .then(([ro, created]) => {
-          if (created) {
-            console.log('Role create: ', ro);
-          }
-        });
-    });
-  });
+  // role.sync().then(() => {
+  //   SeedRoles.map(r => {
+  //     role.findOrCreate({ where: { name: r.name, slug: r.slug }, defaults: {} })
+  //       .then(([ro, created]) => {
+  //         if (created) {
+  //           console.log('Role create: ', ro);
+  //         }
+  //       });
+  //   });
+  // });
 
   return role;
 };
