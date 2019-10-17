@@ -18,7 +18,7 @@
 import React from "react";
 
 // reactstrap components
-import { Button, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 
 class RegisterHeader extends React.Component {
   render() {
@@ -27,7 +27,7 @@ class RegisterHeader extends React.Component {
         <div
           className="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
           style={{
-            minHeight: "600px",
+            // minHeight: "600px",
             backgroundImage:
               "url(" + require("assets/img/theme/logo-kings.png") + ")",
             backgroundSize: "cover",
