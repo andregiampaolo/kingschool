@@ -65,6 +65,8 @@ class Register extends React.Component {
     localStorage.setItem("@GoKings:password", password);
 
     this.props.history.push("/register-form/register-form");
+
+    console.log("Aqui!")
   };
 
   render() {
